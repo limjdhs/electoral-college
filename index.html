@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title></title>
     <link rel="stylesheet" href="style.css" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <meta charset="UTF-8">
 </head>
 <body>
     <div id="main-container">
     
     <h1>Interactive Electoral College Map</h1>
-    <h3>2016 Presidential Election | 270 Electoral Votes to Win</h3>
+    <h3><span onclick="dataDemo()">Demonstration</span> | <span onclick="data2016()">2016 Presidential Election </span> | <span onclick="data1984()">1984 Presidential Election </span>| <span onclick="data2020()">2020 Presidential Election </span></h3>
     <br>
     
     <h3 class="toggle" id="directions" onclick="toggleInstructions()">Click here to <span>view</span> instructions.</h3>
@@ -50,7 +52,7 @@
     
     <div id="bottom-container">
         <h2>How is this map created?</h2>
-        <p>Insert code stuff here.</p>
+        <p>Insert code stuffs here.</p>
         <br>
         <p><b>Note:</b> In 48 states, the candidate who wins the popular vote will normally get all of the state's votes. However, Maine and Nebraska use a "congressional district method": two electoral votes to the state's popular winner, and one electoral vote to the popular winner in each congressional district. This could lead to a split electoral vote, where not every electoral vote in the state goes to the same candidate. For the purposes of simplifying the educational simulation, this has not been included in the map above.</p>
     </div>
