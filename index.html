@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+<body>
+    <div id="main-container">
+    
+    <h1>Interactive Electoral College Map</h1>
+    <h3>2016 Presidential Election | 270 Electoral Votes to Win</h3>
+    <br>
+    
+    <h3 class="toggle" id="directions" onclick="toggleInstructions()">Click here to <span>view</span> instructions.</h3>
+    <div id="instructions">
+        <p>The map below starts off with the results of the 2016 Presidential Election. Drag the sliders to see how an individual state's popular vote could have changed the national electoral and popular votes, or click on the states to quickly change their electoral vote. On the map, zoom in to see small states, or hover over a state to see its number of electoral votes and 2016 voters.</p>
+    </div>
+    
+    <br>
+    <div id="container">
+        <h2 class="text">The Electoral Vote</h2>
+        <div class="bars" id="electoral-bar">
+            <div class="vote-bar dem"><p class=" dem-num"></p></div>
+            <div class="vote-bar neutral"></div>
+            <div class="vote-bar rep"><p class="rep-num"></p></div>
+        </div>
+        <h2 class="text">The Popular Vote</h2>
+        <div class="bars" id="popular-bar">
+            <div class="vote-bar dem"><p class="dem-num"></p></div>
+            <div class="vote-bar neutral"></div>
+            <div class="vote-bar rep"><p class="rep-num"></p></div>
+        </div>
+    </div>
+            
+    <div id="content-container">
+        <div id="left-container">
+            <div id="map"></div>
+        </div>
+        
+        <div id="right-sidebar">
+            <div id="percentage-main-header">Voting by State</div>
+            <div id="percentage-header">
+                <span>Democrat</span>
+                <span>Republican</span>
+            </div>
+            <div id="sliders"></div>
+        </div>
+    </div>
+    
+    <div id="bottom-container">
+        <h2>How is this map created?</h2>
+        <p>Insert code stuff here.</p>
+        <br>
+        <p><b>Note:</b> In 48 states, the candidate who wins the popular vote will normally get all of the state's votes. However, Maine and Nebraska use a "congressional district method": two electoral votes to the state's popular winner, and one electoral vote to the popular winner in each congressional district. This could lead to a split electoral vote, where not every electoral vote in the state goes to the same candidate. For the purposes of simplifying the educational simulation, this has not been included in the map above.</p>
+    </div>
+    
+    <script type="text/javascript" src="lib/d3.min.js"></script>
+    <script type="text/javascript" src="lib/topojson@3.0.0.js"></script>
+    <script type="text/javascript" src="lib/datamaps.usa.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    
+    </div>
+</body>
+</html>
