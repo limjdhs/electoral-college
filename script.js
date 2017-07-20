@@ -9,9 +9,6 @@ function toggleState(state){
     const newData = {};
     newData[state] = {};
     newData[state].fillKey = newColor;
-    map.updateChoropleth(newData);
-    
-    updateElectoralBar();
     
     let newRepVote = '';
     const slider = document.getElementById(`${state}-input`) 
@@ -29,11 +26,10 @@ function toggleState(state){
     
     document.getElementById(`${state}-repLabel`).innerHTML = slider.value + '%';
     document.getElementById(`${state}-demLabel`).innerHTML = 100 - slider.value + '%';
-    const newData2 = {}
-    newData2[state] = {
-        repVote: newRepVote
-    }
+    newData[state].repVote = newRepVote
     
+    map.updateChoropleth(newData);
+    updateElectoralBar();
     updatePopularBar();
 }
 
@@ -80,18 +76,16 @@ function updatePopularBar(){
         dem: 0,
         neutral: 0
     };
+
     for(const state in map.options.data){
+
         switch(map.options.data[state].fillKey){
             case 'rep':
                 sums.rep += map.options.data[state].popVote * map.options.data[state].repVote;
-                if (fileName != 'dataDemo.json') {
-                    sums.dem += map.options.data[state].popVote * (1 - map.options.data[state].repVote);
-                }
+                sums.dem += map.options.data[state].popVote * (1 - map.options.data[state].repVote);
                 break;
             case 'dem':
-                if (fileName != 'dataDemo.json') {
-                    sums.rep += map.options.data[state].popVote * map.options.data[state].repVote;
-                }
+                sums.rep += map.options.data[state].popVote * map.options.data[state].repVote;
                 sums.dem += map.options.data[state].popVote * (1 - map.options.data[state].repVote);
                 break;
             case 'neutral':
@@ -101,9 +95,7 @@ function updatePopularBar(){
     }
     
     for(const party in sums){
-        if (fileName == 'dataDemo.json') {
-            document.querySelector(`#popular-bar .${party}`).style.width = `${sums[party] * 21.137}px`; //pop bar size not working for parties
-        } else if (fileName == 'data1984.json'){
+        if (fileName == 'data1984.json'){
             document.querySelector(`#popular-bar .${party}`).style.width = `${sums[party]/(172217.178 / 2)}px`;
         } else {
             document.querySelector(`#popular-bar .${party}`).style.width = `${sums[party]/(63720 * 2)}px`;
@@ -133,7 +125,7 @@ function createSliders(){
 }
 
 function updateSliders(){
-        for (let state in map.options.data){
+    for (let state in map.options.data){
         const slider = document.getElementById(`${state}-input`)
         slider.addEventListener('input', () => {
             document.getElementById(`${state}-repLabel`).innerHTML = slider.value + '%';
@@ -148,11 +140,11 @@ function updateSliders(){
             } else {
                 newFillKey = 'rep';
             }
-            
+
             const newData = {}
             newData[state] = {
-                    fillKey: newFillKey,
-                    repVote: slider.value / 100
+                fillKey: newFillKey,
+                repVote: slider.value / 100
             }
             
             map.updateChoropleth(newData);
@@ -175,21 +167,25 @@ function updateInstructions() {
 function dataDemo() {
     fileName='dataDemo.json';
     updateAll(fileName);
+    document.getElementById("description").innerHTML = "Demonstration | The map below shows 50 states and the District of Columbia. Each state is assigned the number of electoral votes and popular votes that it had in 2016. Use the simulation to see how the larger states can appear to quickly decide a presidential election.";
 }
 
 function data2016() {
     fileName='data2016.json';
     updateAll(fileName);
+    document.getElementById("description").innerHTML = "2016 Presidential Election | The map below starts off with the results of the 2016 Presidential Election, where businessman Donald Trump (R) ran against former Secretary of State Hillary Clinton (D). While Clinton won the popular vote by more than 2%, the winner-take-all structure of the electoral college resulted in her winning only 232 electoral votes.";
 }
 
 function data1984() {
     fileName='data1984.json';
     updateAll(fileName);
+    document.getElementById("description").innerHTML = "1984 Presidential Election | The map below starts off with the results of the 1984 Presidential Election, where incumbent Ronald Reagan (R) ran against former Vice President Walter Mondale (D). While Mondale won over 40% of the popular vote, the winner-take-all structure of the electoral college resulted in him winning only 13 electoral votes (10 from Minnesota and 3 from the Disrict of Columbia).";
 }
 
 function data2020() {
     fileName='data2020.json';
     updateAll(fileName);
+    document.getElementById("description").innerHTML = "2020 Presidential Election | The map below starts off with showing the states that have voted for the same party since 2000. The 13 states that have will decide the outcome of the presidential race, where a candidate needs 270 votes to win.";
 }
 
 function updateAll(fileName) {
@@ -299,3 +295,25 @@ d3.json(`data/${fileName}`, function(error, data){
     updateSliders();
 
 } )
+
+
+function preHover() {
+    var output = '';
+    var preBox = document.getElementById('raw');
+    var txt = preBox.innerHTML.split('\n');
+    for(var x=0;x<txt.length-1;x++) {
+        output = output + `
+<div class="popup" onclick="codeExplanation('myPopup-${x}')" id="highlight-${x}">
+    ${txt[x]}
+    <span class="popuptext" id="myPopup-${x}"> Test popup text. </span>
+</div>`;
+    }
+    preBox.innerHTML = output;
+}
+
+preHover();
+
+function codeExplanation(id) {
+    var popup = document.getElementById(id);
+    popup.classList.toggle("show");
+}

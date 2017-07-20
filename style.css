@@ -4,7 +4,7 @@ body{
     font-family: 'Open Sans', sans-serif;
 }
 
-h1, h2{
+h2{
     margin-bottom:0px;
 }
 
@@ -15,6 +15,11 @@ h1 {
 
 h3 {
     margin-top: 0px;
+}
+
+button {
+    padding: 10px;
+    font-size: 20px;
 }
 
 .toggle, #instructions {
@@ -32,7 +37,7 @@ h3 {
     margin:auto;
 }
 
-#content-container {
+#content-container, #code {
     display:flex;
 }
 
@@ -45,6 +50,20 @@ h3 {
 }
 .bars{
     display: flex;
+    position: relative;
+}
+.bar-label{
+    position: absolute;
+}
+.bar-label.dem-num{
+    left: 3px;
+    top: -15px;
+    font-size: 20px;
+}
+.bar-label.rep-num{
+    right: 23px;
+    top: -15px;
+    font-size:20px;
 }
 .vote-bar{
     height: 30px;
@@ -65,6 +84,8 @@ h3 {
 .dem{
     background: #1E90FF;
     width: 0px;
+    overflow: visible;
+    white-space: nowrap;
 }
 .neutral{
     background: #AAAAAA;
@@ -125,3 +146,68 @@ h3 {
     margin-left: 50px;
     font-weight:bold;
 }
+
+#code {
+    text-align: left;
+    font-size: 16px;
+}
+
+#raw div:hover {
+    background-color: yellow;
+}
+
+ /* Popup container */
+.popup {
+    position: relative;
+    /*display: block;*/
+    cursor: pointer;
+    padding: -100px;
+}
+
+/* The actual popup */
+.popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: -10%; /* 90% for above */
+    left: 23.5%;
+    margin-left: -80px;
+    display:block;
+}
+
+/* Popup arrow */
+/*.popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}*/
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+    /*visibility: visible; */
+    display:block;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+} 

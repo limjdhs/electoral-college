@@ -1,37 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-
     <title></title>
-    <link rel="stylesheet" href="style.css" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="atomLight.css">
+    <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 <body>
+
     <div id="main-container">
     
+
     <h1>Interactive Electoral College Map</h1>
-    <h3><span onclick="dataDemo()">Demonstration</span> | <span onclick="data2016()">2016 Presidential Election </span> | <span onclick="data1984()">1984 Presidential Election </span>| <span onclick="data2020()">2020 Presidential Election </span></h3>
+    <h3><button onclick="dataDemo()">Demonstration</button> <button onclick="data2016()">2016 Presidential Election </button> <button onclick="data1984()">1984 Presidential Election </button> <button onclick="data2020()">2020 Presidential Election </button></h3>
+    <div id="description"> 
+        <p>Demonstration | The map below shows 50 states and the District of Columbia. Each state is assigned the number of electoral votes and popular votes that it had in 2016. Use the simulation to see how the larger states can appear to quickly decide a presidential election.</p>
+    </div>
     <br>
     
-    <h3 class="toggle" id="directions" onclick="toggleInstructions()">Click here to <span>view</span> instructions.</h3>
+    <h3 class="toggle" id="directions" onclick="toggleInstructions()">Click here to <span> view </span> instructions.</h3>
     <div id="instructions">
-        <p>The map below starts off with the results of the 2016 Presidential Election. Drag the sliders to see how an individual state's popular vote could have changed the national electoral and popular votes, or click on the states to quickly change their electoral vote. On the map, zoom in to see small states, or hover over a state to see its number of electoral votes and 2016 voters.</p>
+        <p>Drag the sliders to see how an individual state's popular vote could have changed the national electoral and popular votes. Click on the states to quickly change their electoral vote. On the map, zoom in to see small states, or hover over a state to see its number of electoral votes and voters.</p>
     </div>
     
     <br>
     <div id="container">
         <h2 class="text">The Electoral Vote</h2>
         <div class="bars" id="electoral-bar">
-            <div class="vote-bar dem"><p class=" dem-num"></p></div>
+            <div class="vote-bar dem"></div>
             <div class="vote-bar neutral"></div>
-            <div class="vote-bar rep"><p class="rep-num"></p></div>
+            <div class="vote-bar rep"></div>
+            <p class="bar-label dem-num"></p>
+            <p class="bar-label rep-num"></p>
         </div>
         <h2 class="text">The Popular Vote</h2>
         <div class="bars" id="popular-bar">
-            <div class="vote-bar dem"><p class="dem-num"></p></div>
+            <div class="vote-bar dem"></div>
             <div class="vote-bar neutral"></div>
-            <div class="vote-bar rep"><p class="rep-num"></p></div>
+            <div class="vote-bar rep"></div>
+            <p class="bar-label dem-num"></p>
+            <p class="bar-label rep-num"></p>
         </div>
     </div>
             
@@ -52,16 +61,39 @@
     
     <div id="bottom-container">
         <h2>How is this map created?</h2>
-        <p>Insert code stuffs here.</p>
+        <div id="code">
+                <pre> <code id="raw">
+def clickState(state):
+    var newColor = changeColor(currentColor)
+    currentColor = newColor;
+
+    if (newColor == 'blue'):
+        repVote = 0.49
+        slider.value = 49
+    elif (newColor == 'red'):
+        repVote = 0.51
+        slider.value = 51
+    else: 
+        repVote = 0.50
+        slider.value = 50
+
+    updateElectoralBar();
+    updatePopularBar();
+                </code></pre>
+        </div>
         <br>
-        <p><b>Note:</b> In 48 states, the candidate who wins the popular vote will normally get all of the state's votes. However, Maine and Nebraska use a "congressional district method": two electoral votes to the state's popular winner, and one electoral vote to the popular winner in each congressional district. This could lead to a split electoral vote, where not every electoral vote in the state goes to the same candidate. For the purposes of simplifying the educational simulation, this has not been included in the map above.</p>
+        <p><b>Note:</b> In 48 states, the candidate who wins the popular vote will normally get all of the state's votes. However, Maine and Nebraska use a "congressional district method": two electoral votes to the state's popular winner, and one electoral vote to the popular winner in each congressional district. This could lead to a split electoral vote, where not every electoral vote in the state goes to the same candidate. For the purposes of simplifying the educational simulation, this has not been included in the map above. (Because of Maine's split electoral vote in 2016, the 2016 Presidential Election simulation is off by 1 vote.)</p>
     </div>
     
+    </div>
+
+
     <script type="text/javascript" src="lib/d3.min.js"></script>
     <script type="text/javascript" src="lib/topojson@3.0.0.js"></script>
     <script type="text/javascript" src="lib/datamaps.usa.min.js"></script>
+    <script src="highlightPack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     <script type="text/javascript" src="script.js"></script>
-    
-    </div>
+
 </body>
 </html>
