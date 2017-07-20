@@ -1,8 +1,13 @@
-/* global Datamap, d3 */
-
+// setting up variables 
 let fileName='dataDemo.json';
 let map=null;
 let showInstructions = false;
+
+// functions for datamap - toggling state, updating bars and sliders
+function cycleColor(color){
+    const colors = ['dem','rep','neutral'];
+    return colors[(colors.indexOf(color)+1)%3];
+}
 
 function toggleState(state){
     const newColor = cycleColor(map.options.data[state].fillKey);
@@ -31,11 +36,6 @@ function toggleState(state){
     map.updateChoropleth(newData);
     updateElectoralBar();
     updatePopularBar();
-}
-
-function cycleColor(color){
-    const colors = ['dem','rep','neutral'];
-    return colors[(colors.indexOf(color)+1)%3];
 }
 
 function updateElectoralBar(){
@@ -154,16 +154,7 @@ function updateSliders(){
     }
 }
 
-function toggleInstructions(){
-    showInstructions = !showInstructions;
-    updateInstructions();
-}
-
-function updateInstructions() {
-    document.querySelector("#directions span").innerHTML = showInstructions ? 'hide' : 'show';
-    document.getElementById("instructions").style.display = showInstructions ? 'block' : 'none';
-}
-
+// functions to switch simulations
 function dataDemo() {
     fileName='dataDemo.json';
     updateAll(fileName);
@@ -188,6 +179,16 @@ function data2020() {
     document.getElementById("description").innerHTML = "2020 Presidential Election | The map below starts off with showing the states that have voted for the same party since 2000. The 13 states that have will decide the outcome of the presidential race, where a candidate needs 270 votes to win.";
 }
 
+function toggleInstructions(){
+    showInstructions = !showInstructions;
+    updateInstructions();
+}
+
+function updateInstructions() {
+    document.querySelector("#directions span").innerHTML = showInstructions ? 'hide' : 'show';
+    document.getElementById("instructions").style.display = showInstructions ? 'block' : 'none';
+}
+
 function updateAll(fileName) {
     d3.json(`data/${fileName}`, function(error, data){
         if (error) {
@@ -203,7 +204,7 @@ function updateAll(fileName) {
     });
 }
 
-
+// global datamap, d3
 d3.json(`data/${fileName}`, function(error, data){
     if (error) {
         console.log(error);
@@ -268,7 +269,7 @@ d3.json(`data/${fileName}`, function(error, data){
     map.labels({'labelColor': 'black'});
     map.resize()
 
-    const states = ['AL','AK','AZ','AR','CA','CO','CT','DE', 'DC', 'FL','GA','HI',
+    const states = ['AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL','GA','HI',
         'ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO',
         'MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI',
         'SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
@@ -297,23 +298,65 @@ d3.json(`data/${fileName}`, function(error, data){
 } )
 
 
+// code and explanations
+function pythonParsing(data) {
+    const lines = data.split('\n');
+
+    const lineData = [];
+
+    let blockIndex = -1;
+
+    for (const i in lines) {
+        if (lines[i].trim()[0] === '#' && lines[i].includes('begin')) {
+            blockIndex = parseInt(lines[i].trim()[lines[i].trim().length - 1], 10);
+        } else if (lines[i].trim()[0] === '#' && lines[i].includes('end')) {
+            blockIndex = -1;
+        }
+        
+        if (lines[i].trim()[0] !== '#') {
+            lineData.push({
+                lineNumber: i,
+                lineText: lines[i] || ' ',
+                blockIndex,
+            })
+        }
+    }
+
+    return lineData;
+}
+
 function preHover() {
     var output = '';
-    var preBox = document.getElementById('raw');
+    var preBox = document.getElementById('highlight');
     var txt = preBox.innerHTML.split('\n');
     for(var x=0;x<txt.length-1;x++) {
         output = output + `
-<div class="popup" onclick="codeExplanation('myPopup-${x}')" id="highlight-${x}">
-    ${txt[x]}
-    <span class="popuptext" id="myPopup-${x}"> Test popup text. </span>
-</div>`;
+        <div class="popup" id="highlight-${x}">${txt[x]}</div>`;
     }
     preBox.innerHTML = output;
 }
-
 preHover();
 
-function codeExplanation(id) {
-    var popup = document.getElementById(id);
-    popup.classList.toggle("show");
+
+function parsing(fileName, idName) {
+    $.get(fileName, data => {
+        const lines = pythonParsing(data);
+        let html = '';
+        for (let i in lines) {
+            html += `<div id="test" data-block="${lines[i].blockIndex}">${lines[i].lineText}</div><br />`;
+        }
+        document.getElementById(idName).innerHTML = html;
+    }, 'text')
 }
+
+function openTab(fileName) {
+    if (fileName == "clickState") {
+        parsing('clickState.py', 'highlight')
+        parsing('clickStateExplanation', 'explanation')
+    } else if (fileName == "updateElectoralBar") {
+        parsing('updateElectoralBar.py', 'highlight')
+    } else if (fileName =="updatePopularBar") {
+        parsing('updatePopularBar.py', 'highlight')
+    }
+}
+
