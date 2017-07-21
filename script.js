@@ -160,6 +160,7 @@ function dataDemo() {
     updateAll(fileName);
     document.getElementById("description").innerHTML = "Demonstration | The map below shows 50 states and the District of Columbia. Each state is assigned the number of electoral votes and popular votes that it had in 2016. Use the simulation to see how the larger states can appear to quickly decide a presidential election.";
 }
+dataDemo();
 
 function data2016() {
     fileName='data2016.json';
@@ -302,19 +303,20 @@ d3.json(`data/${fileName}`, function(error, data){
 function pythonParsing(data) {
     const lines = data.split('\n');
 
-    const lineData = [];
+    const lineData = { maxBlock: -1, data: []};
 
     let blockIndex = -1;
 
     for (const i in lines) {
         if (lines[i].trim()[0] === '#' && lines[i].includes('begin')) {
             blockIndex = parseInt(lines[i].trim()[lines[i].trim().length - 1], 10);
+            lineData.maxBlock = blockIndex;
         } else if (lines[i].trim()[0] === '#' && lines[i].includes('end')) {
             blockIndex = -1;
         }
         
         if (lines[i].trim()[0] !== '#') {
-            lineData.push({
+            lineData.data.push({
                 lineNumber: i,
                 lineText: lines[i] || ' ',
                 blockIndex,
@@ -338,25 +340,55 @@ function preHover() {
 preHover();
 
 
-function parsing(fileName, idName) {
+function parsing(fileName, idName, resolver) {
     $.get(fileName, data => {
-        const lines = pythonParsing(data);
+        const parsedData = pythonParsing(data);
+        const lines = parsedData.data;
+        const maxBlock = parsedData.maxBlock;
         let html = '';
+
         for (let i in lines) {
-            html += `<div id="test" data-block="${lines[i].blockIndex}">${lines[i].lineText}</div><br />`;
+            html += `<div class="block-${lines[i].blockIndex}" data-block="${lines[i].blockIndex}">${lines[i].lineText}</div><br />`;
         }
         document.getElementById(idName).innerHTML = html;
+
+
+        $('pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+
+        for (let i=0; i<=maxBlock; i++) {
+            $(`.block-${i}`).hover(function() {
+                $(`.block-${i}`).addClass("test");
+            }, function() {
+                $(`.block-${i}`).removeClass("test");
+            })
+        }
+
+        resolver(maxBlock)
     }, 'text')
+
 }
 
 function openTab(fileName) {
     if (fileName == "clickState") {
-        parsing('clickState.py', 'highlight')
-        parsing('clickStateExplanation', 'explanation')
+        let parsePython = new Promise(function(resolve, reject) {
+            parsing('clickState.py', 'highlight', resolve) 
+        }).then(function(message){
+            parsing('clickStateExplanation', 'explanation')
+        })
     } else if (fileName == "updateElectoralBar") {
-        parsing('updateElectoralBar.py', 'highlight')
+        let parsePython = new Promise(function(resolve, reject) {
+            parsing('updateElectoralBar.py', 'highlight', resolve)
+        }).then(function(message){
+            parsing('updateElectoralBarExplanation', 'explanation')
+        })
     } else if (fileName =="updatePopularBar") {
-        parsing('updatePopularBar.py', 'highlight')
+        let parsePython = new Promise(function(resolve, reject) {
+            parsing('updatePopularBar.py', 'highlight', resolve)
+        }).then(function(message){
+            parsing('updatePopularBarExplanation', 'explanation')
+        })
     }
 }
-
+// openTab('clickState')

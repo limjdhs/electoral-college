@@ -148,6 +148,7 @@ div.tab {
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
+    display: inline-block;
 }
 
 /* Style the buttons inside the tab */
@@ -188,10 +189,28 @@ div.tab button.active {
     text-align: left;
 }
 
+#highlight {
+    width: 575px;
+    background: #F5F3F3;
+    font-size: 16px;
+}
+
+/*#highlight div:hover {
+    background-color: yellow;
+}*/
+
 code#highlight.hljs.python div{
     display: inline-block;
 }
 
-#highlight div:hover {
+#explanation {
+    font-size: 14px;
+}
+
+
+.test {
     background-color: yellow;
 }
+
+
+

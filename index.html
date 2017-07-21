@@ -16,9 +16,7 @@
             <button onclick="data1984()">1984 Presidential Election </button> 
             <button onclick="data2020()">2020 Presidential Election </button>
         </div>
-        <div id="description"> 
-            <p>Demonstration | The map below shows 50 states and the District of Columbia. Each state is assigned the number of electoral votes and popular votes that it had in 2016. Use the simulation to see how the larger states can appear to quickly decide a presidential election.</p>
-        </div>
+        <div id="description"></div>
         <br>
         
         <h3 class="toggle" id="directions" onclick="toggleInstructions()">Click here to <span> view </span> instructions.</h3>
@@ -60,14 +58,15 @@
                 <div id="sliders"></div>
             </div>
         </div>
-        
+        <br>
+
         <div id="bottom-container">
             <h2>How is this map created?</h2>
             <div class="tab">
-                    <button class="tablinks" onclick="openTab('clickState')">Clicking on States</button>
-                    <button class="tablinks" onclick="openTab('updateElectoralBar')">Updating the Electoral Bar</button>
-                    <button class="tabLinks" onclick="openTab('updatePopularBar')">Updating the Popular Bar </button>
-                </div>
+                <button class="tablinks" onclick="openTab('clickState')">Clicking on States</button>
+                <button class="tablinks" onclick="openTab('updateElectoralBar')">Updating the Electoral Bar</button>
+                <button class="tabLinks" onclick="openTab('updatePopularBar')">Updating the Popular Bar </button>
+            </div>
             <div id="code">
                 <pre> <code id="highlight"></code></pre>
                 <div id="explanation"></div>
