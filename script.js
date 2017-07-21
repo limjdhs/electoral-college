@@ -359,9 +359,9 @@ function parsing(fileName, idName, resolver) {
 
         for (let i=0; i<=maxBlock; i++) {
             $(`.block-${i}`).hover(function() {
-                $(`.block-${i}`).addClass("test");
+                $(`.block-${i}`).addClass("hl");
             }, function() {
-                $(`.block-${i}`).removeClass("test");
+                $(`.block-${i}`).removeClass("hl");
             })
         }
 

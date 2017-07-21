@@ -195,10 +195,6 @@ div.tab button.active {
     font-size: 16px;
 }
 
-/*#highlight div:hover {
-    background-color: yellow;
-}*/
-
 code#highlight.hljs.python div{
     display: inline-block;
 }
@@ -207,8 +203,7 @@ code#highlight.hljs.python div{
     font-size: 14px;
 }
 
-
-.test {
+.hl {
     background-color: yellow;
 }
 
