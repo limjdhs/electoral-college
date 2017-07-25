@@ -187,6 +187,7 @@ div.tab button.active {
 
 #code {
     text-align: left;
+    border-style: solid;
 }
 
 #highlight {
